@@ -75,8 +75,14 @@ char* strcpy_spaces(int count){
 
 sl_node* create_node(sl_skip_list* skiplist, unsigned int key, void* data){
 	sl_node* node = calloc(1, sizeof(sl_node) + sizeof(sl_node*) * skiplist->layer_count);
+	//In case calloc() returned NULL, we need to avoid null references:
+	if(node == NULL)
+		return node;
 	node->key = key;
 	node->data = data;
+	//Shouldn't rely on the machine interpreting that 0ed bits mean NULL:
+	for(int i = 0; i < skiplist->layer_count; i++)
+		node->next_in_layer[i] = NULL;
 	return node;
 }
 
@@ -523,8 +529,13 @@ sl_skip_list* sl_create_skip_list(unsigned int layers){
 
 	//Allocate memory, set all bytes to 0:
 	sl_skip_list* skiplist = calloc(1, sizeof(sl_skip_list) + sizeof(int) * layers);
+	//In case calloc() returned NULL, we need to avoid null references:
+	if(skiplist == NULL)
+		return skiplist;
 	//Set layer_count:
 	skiplist->layer_count = layers;
+	//Shouldn't rely on the machine interpreting that 0ed bits mean NULL:
+	skiplist->zero_node = NULL;
 
 	return skiplist;
 }

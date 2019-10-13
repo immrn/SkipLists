@@ -43,6 +43,8 @@ int Example(){
 			return -1;
 		}
 	}
+	printf("Created a skip list with %d layers and inserted %d nodes.\n",LAYERS, NODES);
+	printf("Display this skip list:\n");
 
 	//Now print the skip list vertically:
 	if(!sl_display_skip_list(skp)){
@@ -50,11 +52,12 @@ int Example(){
 	}
 
 	//We want to remove the last node:
-	printf("\n\nRemoving last node...\n");
 	if(!sl_remove_node(skp, sl_get_last_node(skp)->key)){
 		printf("Error while removing a node!\n");
 		return -3;
 	}
+	printf("Removed last node.\n");
+	printf("Display skip list again:\n");
 
 	//Print skip list again:
 	if(!sl_display_skip_list(skp)){
@@ -71,37 +74,45 @@ int Example(){
 		printf("Error while inserting a node!\n");
 		return -4;
 	}
+	printf("Inserted a Node (Key = 12) with data.\n");
 
 	//Get the node with this data:
 	sl_node *dataNode = sl_get_node(skp, 12);
+	printf("Searched for this node.\n");
 
 	//Check whether sl_get_node() did return NULL:
 	if(dataNode == NULL){
 		printf("Couldn't find node!\n");
 		return -5;
 	}
+	printf("Found node.\n");
 
 	//safe data:
 	Developer *new_Dev = dataNode->data;
+	printf("Stored it's data.\n");
 
 	//print the data:
-	printf("\nTell me something about William Pugh:\n");
-	printf("%s developed %s in %d!\n", new_Dev->name, new_Dev->achievement, new_Dev->year);
+	printf("Displaying some text with using the data:\n\n");
+	printf("Tell me something about William Pugh!\t");
+	printf("%s developed %s in %d!\n\n", new_Dev->name, new_Dev->achievement, new_Dev->year);
 
 	//remove some of the last nodes:
 	if(!sl_remove_node_range(skp, 5, 15)){
 		printf("Error while removing nodes in a row!\n");
 		return -6;
 	}
+	printf("Removed some of the last nodes.\n");
 
 	//print skip list again:
+	printf("Display the skip list again:\n");
 	if(!sl_display_skip_list(skp)){
 		printf("\nSL was'nt printed correctly\n");
 	}
 
 	//remove skip list:
 	sl_remove_skip_list(skp);
-	
+	printf("Removed skip list.\n");
+
 	return 0;
 }
 
